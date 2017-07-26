@@ -30,15 +30,17 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
       var productsICanEat = [];
 
       /* solve using filter() & all() / any() */
+      productsICanEat = products.filter(element => !element.containsNuts && !_.contains(element.ingredients, 'mushrooms'));
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
+
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -52,18 +54,31 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
     
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
     var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
 
-    expect(233168).toBe(FILL_ME_IN);
+    let byFive = _.range(0 , 1000, 5)
+    let byThree = _.range(0, 1000, 3)
+
+    sum = _.union(byFive, byThree).reduce((a, b) => a + b);
+
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
    it("should count the ingredient occurrence (imperative)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
+
+    products = [
+       { name: "Sonoma", ingredients: ["artichoke", "sundried tomatoes", "mushrooms"], containsNuts: false },
+       { name: "Pizza Primavera", ingredients: ["roma", "sundried tomatoes", "goats cheese", "rosemary"], containsNuts: false },
+       { name: "South Of The Border", ingredients: ["black beans", "jalapenos", "mushrooms"], containsNuts: false },
+       { name: "Blue Moon", ingredients: ["blue cheese", "garlic", "walnuts"], containsNuts: true },
+       { name: "Taste Of Athens", ingredients: ["spinach", "kalamata olives", "sesame seeds"], containsNuts: true }
+    ];
 
     for (i = 0; i < products.length; i+=1) {
         for (j = 0; j < products[i].ingredients.length; j+=1) {
@@ -71,15 +86,16 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
+    ingredientCount = _.chain(products).map(product => product.ingredients).flatten().reduce((list, ingredient) => { list[ingredient] = (list[ingredient] || 0) + 1; return list } , {}).value();
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
